@@ -5,6 +5,6 @@ import { App } from '../App';
 
 test('renders learn react link', () => {
 	render(<App />);
-	const linkElement = screen.getByText(/Signal Giphy/i);
+	const linkElement = screen.getByText(/Giphy Clone/i);
 	expect(linkElement).toBeInTheDocument();
 });
