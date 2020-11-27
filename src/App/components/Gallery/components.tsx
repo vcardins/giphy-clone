@@ -57,3 +57,11 @@ export const Overlay = styled.a`
 		}
 	}
 `;
+
+
+export const Grid = styled.div`
+	display: inline-block;
+	padding: 0;
+	column-count: 4;
+	column-gap: 1em;
+`;
