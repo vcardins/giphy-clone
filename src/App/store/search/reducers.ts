@@ -3,12 +3,16 @@ import {
 	SearchActions,
 	SearchActionTypes,
 	SearchState,
+	SearchCompleteType,
 } from './action-types';
 
 const initialState: SearchState = {
 	keyword: '',
 	endpointType: EndpointType.Trending,
 	resourceType: ResourceType.Gifs,
+
+	prevEndpointType: EndpointType.Trending,
+	prevResourceType: ResourceType.Gifs,
 };
 
 export const searchReducer = (
@@ -20,6 +24,8 @@ export const searchReducer = (
 			return {
 				...state,
 				keyword: payload as string,
+				prevResourceType: state.resourceType,
+				prevEndpointType: state.endpointType,
 			};
 		case SearchActionTypes.ResetKeyword:
 			return {
@@ -30,14 +36,23 @@ export const searchReducer = (
 			return {
 				...state,
 				resourceType: payload as ResourceType,
+				prevResourceType: state.resourceType,
 			};
-		case SearchActionTypes.SetEndpoint:
+		case SearchActionTypes.SetSearchComplete:
+			return {
+				...state,
+				resourceType: (payload as SearchCompleteType).resourceType,
+				endpointType: (payload as SearchCompleteType).endpointType,
+			};
+
+		case SearchActionTypes.SetEndpointType:
 			const endpointType = payload as EndpointType;
 
 			return {
 				...state,
 				endpointType,
-				keyword: endpointType === EndpointType.Trending ? '' : state.keyword
+				prevEndpointType: state.endpointType,
+				keyword: state.endpointType !== EndpointType.Search ? '' : state.keyword,
 			};
 		default:
 			return state;

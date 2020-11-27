@@ -2,7 +2,7 @@ import { ResourceType } from './ResourceType';
 
 export interface ISearchParams {
 	/* Search query term or phrase. */
-	q: string;
+	q?: string;
 	/* The maximum number of objects to return. */
 	limit?: number;
 	/* Specifies the starting position of the results. Defaults to 0. */
