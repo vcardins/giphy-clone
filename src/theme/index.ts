@@ -43,9 +43,9 @@ export const theme: ITheme = {
 	colors: {
 		primary: '#074ca7',
 		secondary: '#7ca1d2',
-		tertiary: '#534534',
+		tertiary: '#ccc',
 		dark: '#282c34',
-		bright: '#fffff',
+		bright: '#fff',
 	},
 	fonts,
 	sizes,
