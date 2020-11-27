@@ -60,6 +60,15 @@ export const globalStyle = createGlobalStyle`
 	h4 { font-size: ${theme.heading.h4}; }
 	h5 { font-size: ${theme.heading.h5}; }
 
+	button {
+		&:not([disabled]) {
+			cursor: pointer;
+		}
+		&:disabled {
+			cursor: not-allowed;
+		}
+	}
+
 	[disabled] {
 		input,
 		textarea,
