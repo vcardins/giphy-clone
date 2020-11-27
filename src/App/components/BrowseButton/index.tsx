@@ -20,6 +20,6 @@ export const Button = styled.button`
 
 interface IButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
-export const BrowseButton = (props: IButtonProps) => (
+export const BrowseButton = React.memo((props: IButtonProps) => (
 	<Button {...props}/>
-);
+));

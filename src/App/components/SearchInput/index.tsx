@@ -5,6 +5,6 @@ export const Input = styled.input`
 	padding: 0em 1em;
 `;
 
-export const SearchInput = (props: React.InputHTMLAttributes<HTMLInputElement>) => (
+export const SearchInput = React.memo((props: React.InputHTMLAttributes<HTMLInputElement>) => (
 	<Input type="text" {...props}/>
-);
+));

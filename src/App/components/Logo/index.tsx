@@ -16,9 +16,9 @@ export const Wrapper = styled.span`
 	}
 `;
 
-export const Logo = () => (
+export const Logo = React.memo(() => (
 	<Wrapper>
 		<img src={logo} alt={appConfig.title} />
 		<span>{appConfig.title}</span>
 	</Wrapper>
-);
+));
