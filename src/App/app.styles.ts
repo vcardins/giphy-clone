@@ -3,22 +3,10 @@ import { createGlobalStyle } from 'styled-components';
 import { theme } from '../theme';
 
 export const globalStyle = createGlobalStyle`
-	::-webkit-scrollbar-track {
-		background-color: ${theme.colors.secondary};
-	}
-
-	::-webkit-scrollbar {
-		width: 0.5em;
-	}
-
-	::-webkit-scrollbar-thumb {
-		background-color: ${theme.colors.primary};
-	}
-
 	* {
 		padding: 0;
 		margin: 0;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
 			'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
 			sans-serif;
 		box-sizing: border-box;

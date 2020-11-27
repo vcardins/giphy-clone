@@ -1,8 +1,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Wrapper, Content, Grid } from './components/Viewport';
-import { Gif } from './components/Gif';
+import { Wrapper, Content } from './components/Viewport';
+import { Gallery } from './components/Gallery';
 import { Logo } from './components/Logo';
 import { SearchInput } from './components/SearchInput';
 import { BrowseButton } from './components/BrowseButton';
@@ -15,8 +15,7 @@ import { AppState } from "./store";
 
 import * as SearchActions from './store/search/actions';
 import * as ImageActions from './store/images/actions';
-
-const gifsContainerId = 'infinite-list';
+import { ColorMode } from './types/ColorMode';
 
 export const Viewport = () => {
 	const dispatch = useDispatch();
@@ -68,10 +67,6 @@ export const Viewport = () => {
 		dispatch(SearchActions.setResourceType(e.target.value as ResourceType));
 	}
 
-	useEffect(() => {
-		(async () => await fetchResults(EndpointType.Trending))();
-	}, [fetchResults])
-
 	const handleSubmit = async () => {
 		if (!tempKeyword?.length) {
 			return;
@@ -83,6 +78,10 @@ export const Viewport = () => {
 		await fetchResults(EndpointType.Trending, null);
 		setTempKeyword('');
 	}
+
+	useEffect(() => {
+		(async () => await fetchResults(EndpointType.Trending))();
+	}, [fetchResults])
 
 	return (
 		<Wrapper>
@@ -100,22 +99,7 @@ export const Viewport = () => {
 				<span>found</span>
 			</Header>
 			<Content onScroll={onScrollListener}>
-				{!items.length
-					? <span>{noResultsMessage}</span>
-					: (
-						<Grid id={gifsContainerId}>
-							{items?.map(({id, title, slug, images: {original, thumbnail}}) => (
-								<Gif
-									key={id}
-									id={id}
-									title={title}
-									slug={slug}
-									images={{thumbnail, original}}
-								/>
-							))}
-						</Grid>
-					)
-				}
+				<Gallery items={items} noResultsMessage={noResultsMessage} />
 			</Content>
 		</Wrapper>
 	)
