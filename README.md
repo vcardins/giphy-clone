@@ -41,9 +41,10 @@ All the available scripts can be seen [here](./SCRIPTS.md):
 
 ## TODO
 
-- [ ] Improve experience with Infinite Scrolling
+- [ ] Improve Infinite Scrolling experience
 - [ ] Write unit tests ([jest](https://jestjs.io/) and [enzyme](https://enzymejs.github.io/))
 - [ ] Write integration tests ([cypress](https://www.cypress.io/))
+- [ ] Error handling
 
 Other cool functionalities:
 

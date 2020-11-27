@@ -39,18 +39,19 @@ export const searchReducer = (
 				prevResourceType: state.resourceType,
 			};
 		case SearchActionTypes.SetSearchComplete:
+			const { keyword, resourceType, endpointType } = (payload as SearchCompleteType);
+
 			return {
 				...state,
-				resourceType: (payload as SearchCompleteType).resourceType,
-				endpointType: (payload as SearchCompleteType).endpointType,
+				keyword,
+				resourceType,
+				endpointType,
 			};
 
 		case SearchActionTypes.SetEndpointType:
-			const endpointType = payload as EndpointType;
-
 			return {
 				...state,
-				endpointType,
+				endpointType: payload as EndpointType,
 				prevEndpointType: state.endpointType,
 				keyword: state.endpointType !== EndpointType.Search ? '' : state.keyword,
 			};

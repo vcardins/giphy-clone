@@ -1,21 +1,17 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Wrapper, Content } from './components/Viewport';
-import { Gallery } from './components/Gallery';
-import { Logo } from './components/Logo';
-import { SearchInput } from './components/SearchInput';
-import { BrowseButton } from './components/BrowseButton';
-import { ResourceSelector } from './components/ResourceSelector';
-import { Header } from './components/Header';
+import {
+	Wrapper, Content,
+	Header, Logo, SearchInput, BrowseButton, ResourceSelector, Gallery
+} from './components';
 
+import { EndpointType, ISearchParams, ResourceType, ColorMode } from './types';
 import { search } from './app.service';
-import { EndpointType, ISearchParams, ResourceType } from './types';
-import { AppState } from "./store";
 
+import { AppState } from "./store";
 import * as SearchActions from './store/search/actions';
 import * as ImageActions from './store/images/actions';
-import { ColorMode } from './types/ColorMode';
 
 export const Viewport = () => {
 	const dispatch = useDispatch();
@@ -27,11 +23,13 @@ export const Viewport = () => {
 		const reset = (prevResourceType !== resourceType) ||
 			(!!endpoint?.length && (endpoint !== endpointType)) ||
 			(!!key?.length && (keyword !== key));
+		const isTrendingSearch = endpoint === EndpointType.Trending;
+		const searchKey = isTrendingSearch ? '' : key || keyword;
 
 		dispatch(ImageActions.setLoading(true));
 
 		try {
-			const result = await search(endpoint || endpointType, key || keyword, resourceType, props);
+			const result = await search(endpoint || endpointType, searchKey, resourceType, props);
 
 			dispatch(ImageActions.load({
 				items: result?.data || [],
@@ -39,16 +37,12 @@ export const Viewport = () => {
 				reset,
 			}));
 
-			dispatch(SearchActions.setSearchComplete({
-				resourceType,
-				endpointType: endpoint || endpointType,
-				keyword: key || keyword,
-			}));
+			dispatch(SearchActions.setSearchComplete({resourceType, endpointType: endpoint || endpointType, keyword: searchKey}));
 		} catch (e) {
 			dispatch(ImageActions.setFailed(e));
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [dispatch, endpointType, resourceType, keyword])
+	}, [dispatch, endpointType, resourceType])
 
 	const onScrollListener = useCallback(async (e: any) => {
 		const { scrollHeight, scrollTop, clientHeight } = e.target;
@@ -56,9 +50,9 @@ export const Viewport = () => {
 
 		if (!isLoading && (nearBottom === clientHeight) && items.length < totalCount) {
 			const offset = items.length + 25 + 1;
-			await fetchResults(undefined, tempKeyword, { offset });
+			await fetchResults(endpointType, tempKeyword, { offset });
 		}
-	},[fetchResults, isLoading, items.length, tempKeyword, totalCount]);
+	},[fetchResults, isLoading, items.length, endpointType, tempKeyword, totalCount]);
 
 	const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setTempKeyword(e.target.value);
@@ -74,14 +68,12 @@ export const Viewport = () => {
 		await fetchResults(EndpointType.Search, tempKeyword);
 	}
 
-	const handleBrowseTrending = async () => {
-		await fetchResults(EndpointType.Trending, null);
-		setTempKeyword('');
-	}
+	const handleBrowseTrending = async () => await fetchResults(EndpointType.Trending);
 
 	useEffect(() => {
 		(async () => await fetchResults(EndpointType.Trending))();
-	}, [fetchResults])
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<Wrapper mode={ColorMode.Dark}>
