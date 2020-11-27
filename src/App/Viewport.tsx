@@ -59,7 +59,7 @@ export const Viewport = () => {
 			const offset = items.length + 25 + 1;
 			await fetchResults(undefined, tempKeyword, { offset });
 		}
-	},[fetchResults, isLoading, items.length]);
+	},[fetchResults, isLoading, items.length, tempKeyword, totalCount]);
 
 	const handleChangeKeyword = (e: React.ChangeEvent<HTMLInputElement>) =>
 		setTempKeyword(e.target.value);
@@ -70,7 +70,7 @@ export const Viewport = () => {
 
 	useEffect(() => {
 		(async () => await fetchResults(EndpointType.Trending))();
-	}, [])
+	}, [fetchResults])
 
 	const handleSubmit = async () => {
 		if (!tempKeyword?.length) {
