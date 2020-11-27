@@ -2,8 +2,7 @@ import styled from 'styled-components';
 
 import { ColorMode } from '../../types/ColorMode';
 
-
-export const Wrapper = styled.div<{ mode?: ColorMode }>`
+export const Wrapper = styled.div<{ mode: ColorMode }>`
 	display: flex;
 	flex-direction: column;
 	text-align: center;
@@ -13,10 +12,10 @@ export const Wrapper = styled.div<{ mode?: ColorMode }>`
 	left: 0;
 	bottom: 0;
 	height: 100%;
-	background-color: ${({ theme, mode = ColorMode.Dark }) =>
+	background-color: ${({ theme, mode }) =>
 		mode === ColorMode.Dark ? theme.colors.dark : theme.colors.bright
 	};
-	color: ${({ theme, mode = ColorMode.Dark }) =>
+	color: ${({ theme, mode }) =>
 		mode === ColorMode.Dark ? theme.colors.bright : theme.colors.dark
 	};
 `;

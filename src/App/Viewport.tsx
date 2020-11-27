@@ -84,7 +84,7 @@ export const Viewport = () => {
 	}, [fetchResults])
 
 	return (
-		<Wrapper>
+		<Wrapper mode={ColorMode.Dark}>
 			<Header>
 				<Logo/>
 				<SearchInput name="keyword" value={tempKeyword} onChange={handleChangeKeyword}/>
