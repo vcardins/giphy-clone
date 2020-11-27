@@ -5,17 +5,16 @@ import { ActionMap } from '../ActionMap';
 export interface ImageState {
 	items: BaseGIFModel[];
 	totalCount: number;
-	resourceType?: ResourceType;
-	endpointType?: EndpointType;
+	reset: boolean;
 	isLoading?: boolean;
 	noResultsMessage?: string;
 	error?: Error;
 }
 
 export enum ImageActionTypes {
+	Config = 'CONFIG_PARAMS',
 	Loading = 'LOADING_GIFS',
 	Failed = 'FAILED_GIFS',
-	Succeed = 'SUCCEED_GIFS',
 	Load = 'LOADED_GIFS',
 }
 
@@ -23,23 +22,26 @@ export type ErrorType = {
 	error: Error
 };
 
-export type LoadingType = {
-	loading: boolean;
+export type ConfigType = {
 	resourceType: ResourceType;
 	endpointType: EndpointType;
 };
 
+export type LoadingType = {
+	loading: boolean;
+};
+
 export type ReadType = {
 	items: GIFObject[];
-	resourceType: ResourceType;
-	endpointType: EndpointType;
 	totalCount: number;
-}
+	reset: boolean;
+};
 
 export type ImagePayload = {
-	[ImageActionTypes.Loading]: LoadingType;
+	[ImageActionTypes.Loading]: boolean;
 	[ImageActionTypes.Failed]: ErrorType;
 	[ImageActionTypes.Load]: ReadType;
+	[ImageActionTypes.Config]: ConfigType;
 };
 
 export type ImageActions = ActionMap<ImagePayload>[keyof ActionMap<ImagePayload>];

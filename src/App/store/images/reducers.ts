@@ -5,28 +5,32 @@ import {
 	ImageState,
 	ErrorType,
 	ReadType,
-	LoadingType,
+	ConfigType,
 } from './action-types';
 
 const initialState: ImageState = {
 	items: [],
 	isLoading: false,
 	totalCount: 0,
+	reset: false,
 };
 
 export const imageReducer = (
 	state: ImageState = initialState,
-	{ type, payload }: ImageActions,
+	{ type, payload }: ImageActions = {} as ImageActions,
 ): ImageState => {
 	switch (type) {
-		case ImageActionTypes.Loading:
-			const loadingPayload = payload as LoadingType;
+		case ImageActionTypes.Config:
+			const configPayload = payload as ConfigType;
 
 			return {
 				...state,
-				isLoading: loadingPayload.loading,
-				resourceType: loadingPayload.resourceType,
-				endpointType: loadingPayload.endpointType,
+				...configPayload,
+			};
+		case ImageActionTypes.Loading:
+			return {
+				...state,
+				isLoading: payload as boolean,
 				noResultsMessage: 'Loading ...'
 			};
 		case ImageActionTypes.Failed:
@@ -36,13 +40,12 @@ export const imageReducer = (
 				error: (payload as ErrorType).error,
 			};
 		case ImageActionTypes.Load:
-			const { items: data, totalCount, resourceType, endpointType } = (payload as ReadType);
-			const resetItems = (state.resourceType !== resourceType) || (state.endpointType !== endpointType);
+			const { items: data, totalCount, reset } = (payload as ReadType);
 			const newState: ImageState = data?.length
 				? {
 					...state,
 
-					items: resetItems
+					items: reset
 						? buildImage(data)
 						: state.items.concat(buildImage(data)),
 				}
